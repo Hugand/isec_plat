@@ -22,6 +22,7 @@ function routing() {
   return (
       <Router>
           <div>
+              <Route path="/" render={() => {window.location = "/cadeiras"}} exact/>
               <Route path="/cadeiras"
                 render={(props) => <App {...props} page={"CADEIRAS_LIST"} />}/>
               <Route path="/cadeira_info"
