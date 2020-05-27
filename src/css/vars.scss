@@ -3,6 +3,9 @@ $gradientTranslucent: linear-gradient(269.85deg, #dd24714b -44.56%, #dd247600 10
 $gradientText: -webkit-linear-gradient(45deg, #D87661, #DD2472);
 $shadow: 0px 4px 10px #00000023;
 
+$phoneBreakpoint: 720px;
+$tabletBreakpoint: 1115px;
+
 body{
     background-color: #f7fbfb;
 }

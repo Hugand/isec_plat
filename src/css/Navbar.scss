@@ -1,17 +1,81 @@
 @import 'vars';
 
+@media (min-width: $tabletBreakpoint){
+    #navbar{
+        grid-row: 1;
+        grid-column: 1;
+        padding: 20px;
+        width: calc(100% - 40px);
+        height: calc(100% - 40px) !important;
+
+        .mobile-menu-button{
+            display: none;
+        }
+
+        .nav-buttons{
+            display: block !important;
+        }
+    }
+}
+
+@media (max-width: $tabletBreakpoint){
+    #navbar{
+        grid-row: 1/span 2;
+        grid-column: 1;
+        padding: 10px;
+        width: calc(100% - 20px);
+        height: 50px;
+
+        display: grid;
+        grid-template-rows: 50px calc(100% - 70px);
+        // height: calc(100% - 20px);
+
+
+        .nav-buttons{
+            display: none;
+            grid-row: 2;
+            grid-column: 1;
+
+            ul > li{
+                text-align: right !important;
+
+                .navbar-underline{
+                    margin-left: auto;
+                }
+            }
+
+
+        }
+
+        .mobile-menu-button{
+            grid-row: 1;
+            display: block;
+            margin: auto 0;
+            margin-left: auto;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #eeeeeeec;
+            padding: 10px;
+            border-radius: 5px;
+            transition: .1s;
+
+            &:hover{
+                background-color: #ffffff2c;
+                cursor: pointer;
+            }
+
+        }
+    }
+}
+
 #navbar{
     margin: 0;
-    padding: 20px;
-    grid-row: 1;
-    grid-column: 1;
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
     margin: 0;
     background: $gradient;
     box-shadow: $shadow;
-
+    transition: .2s;
     overflow-y: auto;
+    z-index: 999;
 
     .outer-ul{
         padding: 20px 0;
@@ -32,8 +96,7 @@
 
     .year-ul,
     .semester-ul{
-        padding: 5px 0;
-        padding-left: 10px;
+        padding: 5px 10px;
 
         & > li{
             padding: 0;
@@ -68,8 +131,7 @@
     }
 
     .inner-ul{
-        padding: 5px 0;
-        padding-left: 10px;
+        padding: 5px 10px;
 
         li{
             padding: 0;
@@ -83,8 +145,8 @@
                 height: 1px;
                 background-color: white;
                 transition: .2s;
-                transform: translateX(-50%);
-                left: 50%;
+                // transform: translateX(-50%);
+                // left: 10px;
             }
 
             &:hover{
@@ -105,8 +167,10 @@
         color: white;
         text-align: left;
         transition: .2s;
-        
 
-
+        li{
+            display: block !important;
+            width: 100% !important;
+        }
     }
 }
