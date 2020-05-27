@@ -1,0 +1,84 @@
+@import 'vars';
+
+.prof-info-container{
+    display: grid;
+    grid-template-columns: 50px auto 50px;
+    grid-template-rows: 50px auto 50px;
+
+    .flex-container{
+        display: flex;
+        flex-direction: column;
+        grid-row: 2;
+        grid-column: 2;
+
+        .prof-container{
+            background-color: white;
+            box-shadow: $shadow;
+            border-radius: 20px;
+            width: fit-content;
+            height: fit-content;
+            padding: 30px 40px;
+            min-width: 60%;
+            text-align: left;
+    
+            h1{
+                margin: 0;
+                font-weight: 900;
+            }
+
+            h3{
+                color: #4D4D4D;
+            }
+            
+            .email-row{
+                display: flex;
+                flex-direction: row;
+                label{
+                    margin-left: 5px;
+                    color: #727272;
+                    display: table; 
+                    vertical-align: middle;
+                }
+            }
+        }
+
+        h1{
+            text-align: left;
+            margin: 0;
+            margin-top: 40px;
+        }
+
+        .cadeiras-container{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-top: 20px;
+
+            .cadeira-card{
+                background: $gradient;
+                border-radius: 15px;
+                box-shadow: $shadow;
+                padding: 15px;
+                width: fit-content;
+                height: fit-content;
+                color: white;
+                transition: .2s;
+                margin: 10px;
+
+                h2{
+                    transition: .2s;
+                }
+
+                &:hover{
+                    padding: 18px;
+                    cursor: pointer;
+
+                    h2{
+                        font-weight: 900;
+                    }
+                }
+            }
+        }
+    }
+
+}

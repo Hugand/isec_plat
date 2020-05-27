@@ -1,0 +1,112 @@
+@import 'vars';
+
+#navbar{
+    margin: 0;
+    padding: 20px;
+    grid-row: 1;
+    grid-column: 1;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    margin: 0;
+    background: $gradient;
+    box-shadow: $shadow;
+
+    overflow-y: auto;
+
+    .outer-ul{
+        padding: 20px 0;
+
+        & > :first-child{
+            font-weight: 800;
+            font-size: 16px;
+            transition: .2s;
+
+            &:hover{
+                cursor: pointer;
+                font-weight: 900;
+                font-size: 17px;
+
+            }
+        }
+    }
+
+    .year-ul,
+    .semester-ul{
+        padding: 5px 0;
+        padding-left: 10px;
+
+        & > li{
+            padding: 0;
+            padding-left: 15px;
+            transition: .2s;
+            width: fit-content;
+
+            .navbar-underline{
+                position: relative;
+                width: 0;
+                height: 1px;
+                background-color: white;
+                transition: .2s;
+                transform: translateX(-50%);
+                left: 50%;
+            }
+
+            &:hover{
+                // text-decoration: underline;
+                cursor: pointer;
+
+                & > .navbar-underline{
+                    width: 100px;
+                }
+            }
+        }
+
+        & > li:first-child{
+            padding: 0;
+            font-weight: bold;
+        }
+    }
+
+    .inner-ul{
+        padding: 5px 0;
+        padding-left: 10px;
+
+        li{
+            padding: 0;
+            transition: .2s;
+            font-weight: medium !important;
+            width: fit-content;
+
+            .navbar-underline{
+                position: relative;
+                width: 0;
+                height: 1px;
+                background-color: white;
+                transition: .2s;
+                transform: translateX(-50%);
+                left: 50%;
+            }
+
+            &:hover{
+                // text-decoration: underline;
+                cursor: pointer;
+
+                & > .navbar-underline{
+                    width: 100px;
+                }
+            }
+        }
+    }
+
+    ul{
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        color: white;
+        text-align: left;
+        transition: .2s;
+        
+
+
+    }
+}

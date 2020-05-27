@@ -1,24 +1,25 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import CadeirasList from './pages/CadeirasList'
+import ProfsList from './pages/ProfsList'
+import ProfInfo from './pages/ProfInfo'
+import CadeiraInfo from './pages/CadeiraInfo'
+import './css/App.scss';
+import Navbar from './components/Navbar'
 
-function App() {
+function App(props) {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      {(props.page === 'CADEIRA_INFO') ?
+        <CadeiraInfo />
+      : (props.page === 'CADEIRAS_LIST') ?
+        <CadeirasList />
+      : (props.page === 'PROFS_LIST') ?
+        <ProfsList />
+      : (props.page === 'PROF_INFO') &&
+        <ProfInfo />
+      }
     </div>
   );
 }

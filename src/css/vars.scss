@@ -1,0 +1,15 @@
+$gradient: linear-gradient(269.85deg, #DD2472 -44.56%, rgba(221, 36, 118, 0) 100%), #D87661;
+$gradientTranslucent: linear-gradient(269.85deg, #dd24714b -44.56%, #dd247600 100%), #D876614b;
+$gradientText: -webkit-linear-gradient(45deg, #D87661, #DD2472);
+$shadow: 0px 4px 10px #00000023;
+
+body{
+    background-color: #f7fbfb;
+}
+
+.txt-field{
+    border-radius: 10px;
+    border: 1px solid #AEAEAE;
+    padding: 5px 10px;
+    font-size: 16px;
+}
