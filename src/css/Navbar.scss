@@ -77,6 +77,30 @@
     overflow-y: auto;
     z-index: 999;
 
+    .navbar-separator{
+        background-color: white;
+        height: 1px;
+        z-index: 999;
+        width: 90%;
+        grid-column: 1;
+        margin: 10px 0;
+    }
+
+    .navbar-logout{
+        font-weight: 700;
+        font-size: 18px;
+        grid-column: 1;
+        color: white;
+        text-align: left;
+        display: block;
+        transition: .2s;;
+
+        &:hover{
+            font-weight: 900;
+            cursor: pointer;
+        }
+    }
+
     .outer-ul{
         padding: 20px 0;
 

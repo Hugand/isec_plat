@@ -3,6 +3,7 @@ import '../css/Navbar.scss';
 import CadeiraNavbarItem from '../components/CadeiraNavbarItem'
 import { FiMenu } from "react-icons/fi";
 import { MdClear } from "react-icons/md";
+import {getSessionCookie, deleteSessionCookie} from '../sessions.js'
 
 class Navbar extends React.Component{
 
@@ -21,59 +22,80 @@ class Navbar extends React.Component{
                 y3s2: false,
             },
             cadeiras: {
-                ano_1: {
-                    semestre_1: [
-                        {
-                            id: "diow1jdio1",
-                            nome: "Cadeira 1"
-                        },
-                        {
-                            id: "chs8hc9a9a",
-                            nome: "Cadeira 2"
-                        },
-                    ],
-                    semestre_2: [
-                        {
-                            id: "diow1jdio1",
-                            nome: "Cadeira 4"
-                        },
-                        {
-                            id: "chs8hc9a9a",
-                            nome: "Cadeira 5"
-                        }
-                    ],
+                y1: {
+                    s1: [],
+                    s2: [],
                 },
-                ano_2: {
-                    semestre_1: [],
-                    semestre_2: [],
+                y2: {
+                    s1: [],
+                    s2: [],
                 },
-                ano_3: {
-                    semestre_1: [],
-                    semestre_2: [],
+                y3: {
+                    s1: [],
+                    s2: [],
                 },
             },
-            profs: [
-                {
-                    id: "2ediow1jdio1",
-                    nome: "Professor 1"
-                },
-                {
-                    id: "2echs8hc9a9a",
-                    nome: "Professor 2"
-                },
-                {
-                    id: "vfdse28fuc9s",
-                    nome: "Professor 3"
-                },
-                {
-                    id: "dioji21s0c9",
-                    nome: "Professor 4"
-                },
-            ],
+            profs: [],
             display_menu: false
 
         }
 
+    }
+
+    componentDidMount = (props) => {
+        fetch("https://apont-plat-api.ugomes.com/cadeiras/query_cadeira_list.php",{
+                headers: {
+                    // "Content-type": "application/json",
+                    "x-access-token": getSessionCookie()
+                }
+            })
+            .then(res => {
+
+                switch(res.status){
+                    case 200:
+                        return res.json()
+                    case 403:
+                    case 401:
+                        this.logout()
+                    case 500:
+                        window.location = "/500_error"
+                }
+            })
+            .then(res => {
+                if(res){
+                    console.log(res.cadeiras)
+                    this.setState({
+                        cadeiras: res.cadeiras
+                    })
+                }
+            })
+        fetch("https://apont-plat-api.ugomes.com/profs/get_professores_list.php",{
+                headers: {
+                    // "Content-type": "application/json",
+                    "x-access-token": getSessionCookie()
+                }
+            })
+            .then(res => {
+
+                switch(res.status){
+                    case 200:
+                        return res.json()
+                    case 403:
+                    case 401:
+                        this.logout()
+                    case 500:
+                        window.location = "/500_error"
+                }
+            })
+            .then(res => {
+                if(res){
+                    console.log(res.profs)
+
+                    this.setState({
+                        profs: res.profs
+                    })
+                }
+            })
     }
 
     handle_tab = (tab_name) => {
@@ -83,6 +105,11 @@ class Navbar extends React.Component{
         this.setState({
             display_tabs: disp,
         })
+    }
+
+    logout = () => {
+        deleteSessionCookie()
+        window.location = "/login"
     }
 
     render(){
@@ -103,7 +130,7 @@ class Navbar extends React.Component{
                                             <li onClick={() => this.handle_tab('y1s1')}>1º semestre</li>
                                             {(this.state.display_tabs.y1s1) ?
                                             <ul className="inner-ul">
-                                                {this.state.cadeiras.ano_1.semestre_1.map(cadeira => 
+                                                {this.state.cadeiras.y1.s1.map(cadeira => 
                                                     <CadeiraNavbarItem cadeira={cadeira}/>)}
                                             </ul>
                                             : ""}
@@ -112,7 +139,7 @@ class Navbar extends React.Component{
                                             <li onClick={() => this.handle_tab('y1s2')}>2º semestre</li>
                                             {(this.state.display_tabs.y1s2) ?
                                             <ul className="inner-ul">
-                                            {this.state.cadeiras.ano_1.semestre_2.map(cadeira => 
+                                            {this.state.cadeiras.y1.s2.map(cadeira => 
                                                 <CadeiraNavbarItem cadeira={cadeira}/>)}
                                             </ul>
                                             : ""}
@@ -129,7 +156,7 @@ class Navbar extends React.Component{
                                             <li onClick={() => this.handle_tab('y2s1')}>1º semestre</li>
                                                 {(this.state.display_tabs.y2s1) ?
                                                     <ul className="inner-ul">
-                                                    {this.state.cadeiras.ano_2.semestre_1.map(cadeira => 
+                                                    {this.state.cadeiras.y2.s1.map(cadeira => 
                                                         <CadeiraNavbarItem cadeira={cadeira}/>)}
                                                     </ul>
                                                     : ""}
@@ -138,7 +165,7 @@ class Navbar extends React.Component{
                                             <li onClick={() => this.handle_tab('y2s2')}>2º semestre</li>
                                                 {(this.state.display_tabs.y2s2) ?
                                                     <ul className="inner-ul">
-                                                    {this.state.cadeiras.ano_2.semestre_2.map(cadeira =>
+                                                    {this.state.cadeiras.y2.s2.map(cadeira =>
                                                         <CadeiraNavbarItem cadeira={cadeira}/>)}
                                                     </ul>
                                                     : ""}
@@ -153,7 +180,7 @@ class Navbar extends React.Component{
                                             <li onClick={() => this.handle_tab('y3s1')}>1º semestre</li>
                                                 {(this.state.display_tabs.y3s1) ?
                                                 <ul className="inner-ul">
-                                                {this.state.cadeiras.ano_3.semestre_1.map(cadeira =>
+                                                {this.state.cadeiras.y3.s1.map(cadeira =>
                                                     <CadeiraNavbarItem cadeira={cadeira}/>)}
                                                 </ul>
                                                 : ""}
@@ -162,7 +189,7 @@ class Navbar extends React.Component{
                                             <li onClick={() => this.handle_tab('y3s2')}>2º semestre</li>
                                                 {(this.state.display_tabs.y3s2) ?
                                                 <ul className="inner-ul">
-                                                {this.state.cadeiras.ano_3.semestre_2.map(cadeira => 
+                                                {this.state.cadeiras.y3.s2.map(cadeira => 
                                                     <CadeiraNavbarItem cadeira={cadeira}/>)}
                                                 </ul>
                                                 : ""}
@@ -171,17 +198,19 @@ class Navbar extends React.Component{
                             </ul>
                     </ul>
                     <ul className="outer-ul">
-                    <li onClick={() => {window.location = "profs"}}>Professores</li>
+                    <li onClick={() => {window.location = "/profs"}}>Professores</li>
                     <ul className="inner-ul">
                         {this.state.profs.map(prof => 
-                            <li onClick={() => {window.location = "/prof_info"}}>
+                            <li onClick={() => {window.location = "/prof_info/"+prof.id}}>
                                 {prof.nome}
                                 <div className="navbar-underline"></div>
                             </li>)}
                     </ul>
                 </ul>
-                </div>
-
+               </div>
+               <div className="navbar-separator"></div>
+                <label className="navbar-logout" onClick={this.logout}>Logout</label>
+                
                 <div className="mobile-menu-button" onClick={()=>{
                     const {display_menu} = this.state
                     this.setState({

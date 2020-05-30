@@ -1,0 +1,190 @@
+@import 'vars';
+
+@media (min-width: $tabletBreakpoint){
+    .login{
+        img{
+            right: -50px;
+        }
+
+        .big-bg{
+            display: block;
+        }
+        .mobile-bg{
+            display: none;
+        }
+    }
+}
+
+@media (max-width: $tabletBreakpoint) and (min-width: $phoneBreakpoint){
+    .login{
+        img{
+            right: -150px;
+        }
+
+        .big-bg{
+            display: block;
+        }
+        .mobile-bg{
+            display: none;
+        }
+    }
+}
+
+
+@media (max-width: $phoneBreakpoint) and (min-width: 619px){
+    .login{
+        img{
+            right: 0;
+        }
+
+        .big-bg{
+            display: none;
+        }
+        .mobile-bg{
+            position: absolute;
+            width: 100%;
+            display: block;
+            top: -350px;
+            height: 150vh;
+            object-fit: cover;
+        }
+
+        .login-container{
+            width: calc(100% - 40px) !important;
+            top: 40% !important;
+            margin: 20px 20px !important;
+            h1{
+                font-size: 70px !important;
+                text-align: center !important;
+            }
+            form{
+                margin: 0 auto !important;
+                margin-top: 70px !important;
+
+                .txt-field{
+                    font-size: 20px !important;
+                }
+
+                .button{
+                    box-shadow: none !important;
+                    background: transparent !important;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 619px){
+    .login{
+        img{
+            right: 0;
+        }
+
+        .big-bg{
+            display: none;
+        }
+        .mobile-bg{
+            position: absolute;
+            width: 100%;
+            display: block;
+            top: -10px;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        .login-container{
+            width: calc(100% - 40px) !important;
+            top: 40% !important;
+            margin: 20px 20px !important;
+            h1{
+                font-size: 50px !important;
+                text-align: center !important;
+            }
+            form{
+                margin: 0 auto !important;
+                margin-top: 70px !important;
+
+                .txt-field{
+                    font-size: 20px !important;
+                }
+
+                .button{
+                    box-shadow: none !important;
+                    background: transparent !important;
+                }
+            }
+        }
+    }
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+  
+.login{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    img{
+        position: fixed;
+        transition: .2s;
+    }
+
+    .login-container{
+        position: absolute;
+        width: 60%;
+        right: 0px;
+        margin: 0 60px;
+        transform: translateY(-50%);
+        top: 50%;
+
+        h1{
+            font-weight: 900;
+            font-size: 80px;
+            text-align: right;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+        form{
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            margin-left: auto;
+
+            .txt-field{
+                font-size: 25px;
+                padding: 10px 15px;
+                text-align: right;
+            }
+
+            label{
+                color:#d84545;
+                margin-bottom: 5px;
+            }
+    
+            .button{
+                background: $gradient;
+                font-size: 25px;
+                border-radius: 20px;
+                padding: 15px 20px;
+                color: white;
+                font-weight: 700;
+                border: 0;
+                transition: .2s;
+                box-shadow: $shadow;
+                margin: 10px 0;
+
+                &:hover{
+                    cursor: pointer;
+                    font-weight: 900;
+                    background: $gradientTranslucent2;
+                }
+            }
+        }
+    }
+}

@@ -3,35 +3,38 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import Login from './pages/Login'
+import {isSessionCookieSet} from './sessions.js'
+import Error500 from './pages/500'
+
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
   Link
 } from "react-router-dom";
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+      isSessionCookieSet()
+      ? <App {...props}  page={rest.page} />
+      : <Redirect to='/login' />
+  )} />
+)
 
 function routing() {
   return (
       <Router>
           <div>
-              <Route path="/" render={() => {window.location = "/cadeiras"}} exact/>
-              <Route path="/cadeiras"
-                render={(props) => <App {...props} page={"CADEIRAS_LIST"} />}/>
-              <Route path="/cadeira_info"
-                render={(props) => <App {...props} page={"CADEIRA_INFO"} />}
+              <Route path="/"  render={(props) => <Redirect to='/cadeiras' />} exact/>
+              <Route path="/login" component={Login}/>
+              <PrivateRoute path="/cadeiras" page={"CADEIRAS_LIST"}/>
+              <PrivateRoute path="/cadeira_info"  page={"CADEIRA_INFO"}
               />
-              <Route path="/profs"
-                render={(props) => <App {...props} page={"PROFS_LIST"} />}/>
-                <Route path="/prof_info"
-                  render={(props) => <App {...props} page={"PROF_INFO"} />}/>
+              <PrivateRoute path="/profs"  page={"PROFS_LIST"} />
+                <PrivateRoute path="/prof_info"  page={"PROF_INFO"}/>
+              <Route path="/500_error" component={Error500}/>
               {/* <Route path="/login" component={Login}/> */}
           </div>
       </Router>

@@ -83,6 +83,7 @@ class Calendar extends React.Component{
         })
     }
 
+
     getDateString = (day, month, year) => 
     `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`
 

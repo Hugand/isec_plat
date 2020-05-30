@@ -3,124 +3,90 @@ import '../css/CadeiraInfo.scss'
 import '../css/Calendar.scss'
 import Calendar from '../components/Calendar'
 import { MdEmail } from "react-icons/md";
+import {getSessionCookie, deleteSessionCookie} from '../sessions.js'
 
 class CadeiraInfo extends React.Component{
 
     constructor(props){
         super(props)
         this.state = {
-            cadeira: {
-                nome: "Análise Matemática 2",
-                metodos_avaliacao: [
-                    {
-                        peso: "20%",
-                        nome: "Teste 1"
-                    },
-                    {
-                        peso: "80%",
-                        nome: "Exame"
-                    },
-                ]
-            },
-            professor: {
-                nome: "Arménio do Matlab",
-                email: "armenio_matlab@isec.pt"
-            },
-            calendarData: {
-                '11/04/2020': {
-                    nome: "TP1",
-                    tipo: "Trabalho"
-                },
-                '02/04/2020': {
-                    nome: "TP2",
-                    tipo: "Trabalho"
-                },
-                '17/04/2020': {
-                    nome: "Exame Época Normal",
-                    tipo: "Exame"
-                },
-            },
+            cadeira: {},
+            professor: { },
+            calendarData: {},
             links_aulas: {
-                t: [
-                    {
-                        turma: "T1",
-                        link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                    },
-                    {
-                        turma: "T2",
-                        link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                    },
-                    {
-                        turma: "T3",
-                        link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                    },
-                ],
-                p: [
-                    {
-                        turma: "P1",
-                        link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                    },
-                    {
-                        turma: "P2",
-                        link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                    },
-                    {
-                        turma: "P3",
-                        link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                    },
-                ]
+                t: [],
+                p: []
             },
-            links_videos: [
-                {
-                    assunto: "Equacoes diferenciais de ordem 1",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-                {
-                    assunto: "Equacoes diferenciais de ordem 2",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-                {
-                    assunto: "Coordenadas polares",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-                {
-                    assunto: "Equacoes diferenciais de ordem 1",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-                {
-                    assunto: "Equacoes diferenciais de ordem 2",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-                {
-                    assunto: "Coordenadas polares",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-            ],
-            links_apontamentos: [
-                {
-                    assunto: "Equacoes diferenciais de ordem 1",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-                {
-                    assunto: "Equacoes diferenciais de ordem 2",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-                {
-                    assunto: "Coordenadas polares",
-                    date: "20/05/2020",
-                    link: "https://videoconf-colibri.com/8dh90dc/da0sdjqd"
-                },
-            ]
+            links_videos: [],
+            links_apontamentos: []
         }
 
+    }
+
+    componentDidMount = (props) => {
+        const splitUrl = window.location.toString().split("/")
+        const id = splitUrl[splitUrl.length-1]
+        fetch("https://apont-plat-api.ugomes.com/cadeiras/query_cadeira_info.php?id="+id,{
+                headers: {
+                    // "Content-type": "application/json",
+                    "x-access-token": getSessionCookie()
+                }
+            })
+            .then(res => {
+
+                switch(res.status){
+                    case 200:
+                        return res.json()
+                    case 403:
+                    case 401:
+                        deleteSessionCookie()
+                        window.location = "/login"
+                    case 500:
+                        window.location = "/500_error"
+                }
+            })
+            .then(res => {
+                if(res){
+                    this.setState({
+                        cadeira: res.cadeira,
+                        professor: res.professor,
+                        calendarData: this.parseDateStringFormat(res.CalendarData),
+                        links_aulas: res.links_aulas,
+                        links_videos: res.links_videos,
+                        links_apontamentos: res.links_apontamentos
+                    })
+                    
+                }
+            })
+    }
+
+    parseDateStringFormat = (reqCalendarData) => {
+        let calendarData = Object.entries(reqCalendarData).splice(0, 2)
+        let parsedCalendarData = {}
+        let splitDateTime = []
+        let splitDate = []
+        let tmp = ""
+
+        for(let i = 0; i < calendarData.length; i++){
+            splitDateTime = calendarData[i][0].split(' ')
+            splitDate = splitDateTime[0].split('-')
+            tmp = splitDate[0]
+
+            splitDate[0] = splitDate[2]
+            splitDate[2] = tmp;
+
+            splitDateTime[0] = splitDate.join("/")
+
+            console.log(calendarData[i])
+
+            parsedCalendarData[splitDateTime[0]] = {
+                time: splitDateTime[1],
+                nome: calendarData[i][1].nome,
+                tipo: calendarData[i][1].tipo
+            }
+            
+        }
+        return parsedCalendarData
     }
 
     render(){
@@ -131,11 +97,11 @@ class CadeiraInfo extends React.Component{
                     <div className="info-card">
                         <div className="cadeira">
                             <h1>{this.state.cadeira.nome}</h1>
-                            <label>Métodos de avaliação:</label>
+                            {/* <label>Métodos de avaliação:</label>
                             <ul>
                                 {this.state.cadeira.metodos_avaliacao.map(avaliacao =>
                                     <li>{avaliacao.peso} - {avaliacao.nome}</li>)}
-                            </ul>
+                            </ul> */}
                         </div>
                         <div className="divider"></div>
                         <div className="prof">
@@ -155,37 +121,52 @@ class CadeiraInfo extends React.Component{
                         <div className="links-container">
                             <h2>Teóricas</h2>
                             <ul>
-                                {this.state.links_aulas.t.map(aula =>
-                                    <li>
-                                        <label>{aula.turma}</label>
-                                        <a href="">{aula.link}</a>
-                                    </li>
-                                )}
+                                {
+                                    (this.state.links_aulas.t.length === 0) ?
+                                        <li>Nenhum link disponível</li>
+                                    :
+                                        (this.state.links_aulas.t.map(aula =>
+                                            <li>
+                                                <label>{aula.turma}</label>
+                                                <a href={aula.link}>{aula.link}</a>
+                                            </li>
+                                        ))
+                                }
                             </ul>
                         </div>
 
                         <div className="links-container">
                             <h2>Práticas</h2>
                             <ul>
-                                {this.state.links_aulas.p.map(aula =>
-                                    <li>
-                                        <label>{aula.turma}</label>
-                                        <a href="">{aula.link}</a>
-                                    </li>
-                                )}
+                                {
+                                    (this.state.links_aulas.p.length === 0) ?
+                                        <li>Nenhum link disponível</li>
+                                    :
+                                    this.state.links_aulas.p.map(aula =>
+                                        <li>
+                                            <label>{aula.turma}</label>
+                                            <a href={aula.link}>{aula.link}</a>
+                                        </li>
+                                    )
+                                }
                             </ul>
                         </div>
 
-                        {(this.state.links_aulas.tp !== undefined && this.state.links_aulas.tp !== null) &&
+                        {(this.state.links_aulas.tp !== undefined) &&
                             (<div className="links-container">
                                 <h2>Teórico-Práticas</h2>
                                 <ul>
-                                    {this.state.links_aulas.tp.map(aula =>
-                                        <li>
-                                            <label>{aula.turma}</label>
-                                            <a href="">{aula.link}</a>
-                                        </li>
-                                    )}
+                                    {
+                                        (this.state.links_aulas.tp.length === 0) ?
+                                            <li>Nenhum link disponível</li>
+                                        :
+                                        this.state.links_aulas.tp.map(aula =>
+                                            <li>
+                                                <label>{aula.turma}</label>
+                                                <a href={aula.link}>{aula.link}</a>
+                                            </li>
+                                        )
+                                    }
                                 </ul>
                             </div>)
                         }
@@ -200,13 +181,18 @@ class CadeiraInfo extends React.Component{
                         <h2>Datas de entrega</h2>
 
                         <ul>
-                            {Object.entries(this.state.calendarData).map(entrega => 
+                            {
+                                (Object.keys(this.state.calendarData).length === 0) ?
+                                    <li>Nenhuma data disponível</li>
+                                :
+                                Object.entries(this.state.calendarData).map(entrega => 
                                     <li>
                                         <label>{entrega[1].nome}</label>
                                         <label>{entrega[1].tipo}</label>
-                                        <label>{entrega[0]}</label>
+                                        <label>{entrega[0]}  {entrega[1].time}</label>
                                     </li>
-                                )}
+                                )
+                            }
                         </ul>
                     </div>
                 </div>
@@ -217,17 +203,22 @@ class CadeiraInfo extends React.Component{
                         <h2>Links para vídeos</h2>
 
                         <ul>
-                            {this.state.links_videos.map(video => 
-                                (<li>
-                                    <div className="info-row">
-                                        <label>{video.assunto}</label>
-                                        <label>{video.date}</label>
-                                    </div>
-                                    <a>{video.link}</a>
-                                    <div className="divider"></div>
-                                </li>
+                            {
+                                (this.state.links_videos.length === 0) ?
+                                    <li>Nenhum link disponível</li>
+                                :
+                                this.state.links_videos.map(video => 
+                                    (<li>
+                                        <div className="info-row">
+                                            <label>{video.assunto}</label>
+                                            <label>{video.date}</label>
+                                        </div>
+                                        <a href={video.link}>{video.link}</a>
+                                        <div className="divider"></div>
+                                    </li>
+                                    )
                                 )
-                            )}
+                            }
                         </ul>
                     </div>
 
@@ -235,17 +226,22 @@ class CadeiraInfo extends React.Component{
                         <h2>Links para apontamentos</h2>
 
                         <ul>
-                            {this.state.links_apontamentos.map(video => 
-                                (<li>
-                                    <div className="info-row">
-                                        <label>{video.assunto}</label>
-                                        <label>{video.date}</label>
-                                    </div>
-                                    <a>{video.link}</a>
-                                    <div className="divider"></div>
-                                </li>
+                            {
+                                (this.state.links_apontamentos.length === 0) ?
+                                    <li>Nenhum link disponível</li>
+                                :
+                                this.state.links_apontamentos.map(apontamento => 
+                                    (<li>
+                                        <div className="info-row">
+                                            <label>{apontamento.assunto}</label>
+                                            <label>{apontamento.date}</label>
+                                        </div>
+                                        <a href={apontamento.link}>{apontamento.link}</a>
+                                        <div className="divider"></div>
+                                    </li>
+                                    )
                                 )
-                            )}
+                            }
                         </ul>
                     </div>
                 </div>
