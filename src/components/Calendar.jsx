@@ -103,7 +103,7 @@ class Calendar extends React.Component{
                                             "calendar-day "
                                             +((this.state.selected_day !== null && this.state.selected_day.month_day === day.month_day)
                                                 ? 'calendar-selected-day': '')
-                                            +((this.props.data[this.getDateString(day.month_day, this.state.currMonth, this.state.currYear)] !== undefined) ? ' calendar-marked-day' : '')
+                                            +((this.props.data[this.getDateString(day.month_day, this.state.currMonth+1, this.state.currYear)] !== undefined) ? ' calendar-marked-day' : '')
                                             +((day === -1) ? ' calendar-filler' : '')} 
                                             
                                             onClick={() => (day !== -1) ?  this.handleDaySelection(day) : ''}

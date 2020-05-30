@@ -175,7 +175,7 @@ class CadeiraInfo extends React.Component{
                 </div>
 
                 <div className="dates-container">
-                    <Calendar month={4} year={2020} data={this.state.calendarData}/>
+                    <Calendar month={new Date().getMonth()} year={new Date().getFullYear()} data={this.state.calendarData}/>
 
                     <div className="datas-entrega-container">
                         <h2>Datas de entrega</h2>

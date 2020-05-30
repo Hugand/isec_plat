@@ -207,9 +207,9 @@ class Navbar extends React.Component{
                             </li>)}
                     </ul>
                 </ul>
-               </div>
                <div className="navbar-separator"></div>
                 <label className="navbar-logout" onClick={this.logout}>Logout</label>
+               </div>
                 
                 <div className="mobile-menu-button" onClick={()=>{
                     const {display_menu} = this.state
