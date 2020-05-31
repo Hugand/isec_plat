@@ -119,16 +119,16 @@ class Calendar extends React.Component{
 
                 {(this.state.selected_day !== null 
                 && this.props.data[
-                    this.getDateString(this.state.selected_day.month_day, this.state.currMonth, this.state.currYear)
+                    this.getDateString(this.state.selected_day.month_day, this.state.currMonth+1, this.state.currYear)
                 ] !== undefined ) ? (
                     <div className="day-info-display">
                         <h2>
                             {this.props.data[
-                                this.getDateString(this.state.selected_day.month_day, this.state.currMonth, this.state.currYear)
+                                this.getDateString(this.state.selected_day.month_day, this.state.currMonth+1, this.state.currYear)
                             ].nome}
                         </h2>
                         <label>
-                            {this.getDateString(this.state.selected_day.month_day, this.state.currMonth, this.state.currYear)}
+                            {this.getDateString(this.state.selected_day.month_day, this.state.currMonth+1, this.state.currYear)}
                         </label>
                     </div>
                 ) : ""}
