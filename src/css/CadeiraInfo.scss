@@ -260,6 +260,7 @@
     height: 100%;
     display: grid;
     overflow-y: auto;
+    overflow-x: hidden;
 
     .info-container{
         display: flex;

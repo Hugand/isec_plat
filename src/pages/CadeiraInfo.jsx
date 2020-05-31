@@ -41,6 +41,7 @@ class CadeiraInfo extends React.Component{
                     case 401:
                         deleteSessionCookie()
                         window.location = "/login"
+                        break;
                     case 500:
                         window.location = "/500_error"
                 }

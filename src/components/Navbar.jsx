@@ -57,6 +57,7 @@ class Navbar extends React.Component{
                     case 403:
                     case 401:
                         this.logout()
+                        break;
                     case 500:
                         window.location = "/500_error"
                 }
@@ -83,6 +84,7 @@ class Navbar extends React.Component{
                     case 403:
                     case 401:
                         this.logout()
+                        break;
                     case 500:
                         window.location = "/500_error"
                 }
