@@ -40,6 +40,13 @@
         .dates-container{
             grid-row: 2;
             grid-column: 4;
+
+            .datas-entrega-container{
+                ul{
+                    width: calc(100% - 60px) !important;
+                    padding: 0 30px !important;
+                }
+            }
         }
 
         .links-apontamentos,
@@ -114,6 +121,13 @@
         .dates-container{
             grid-row: 2;
             grid-column: 4;
+
+            .datas-entrega-container{
+                ul{
+                    width: calc(100% - 30px) !important;
+                    padding: 0 15px !important;
+                }
+            }
         }
 
         .links-apontamentos,
@@ -154,9 +168,10 @@
     .outter-container{
         grid-row: 2;
         grid-column: 1;
-        grid-template-columns: 20px auto 20px;
+        width: 100% !important;
+        grid-template-columns: 10px calc(100vw - 20px) 10px;
         grid-template-rows: 20px fit-content(200px) fit-content(200px) fit-content(200px);
-        margin-top:10px;
+        margin-top: 10px;
 
         .info-container{
             grid-column: 2;
@@ -165,6 +180,8 @@
 
         .info-card{
             grid-template-rows: auto 30px auto;
+            padding: 10px 10px !important;
+            width: calc(100% - 20px) !important;
 
             .cadeira{
                 grid-row: 1;
@@ -189,6 +206,13 @@
         .dates-container{
             grid-row: 3;
             grid-column: 2;
+
+            .datas-entrega-container{
+                ul{
+                    width: calc(100% - 30px) !important;
+                    padding: 0 15px !important;
+                }
+            }
         }
 
         .links-files-container{
@@ -344,6 +368,7 @@
                         a{
                             display: block;
                             width: 70%;
+                            max-width: 70%;
                             text-align: right;
                             transition: .2s;
                             text-decoration: none;
@@ -361,6 +386,10 @@
                 }
             }
         }
+    }
+
+    a{
+        text-overflow: ellipsis;
     }
 
     .dates-container{
@@ -385,7 +414,7 @@
 
                     label{
                         display: block;
-                        width: 31%;
+                        width: 33%;
                     }
 
                     label:first-child{
